@@ -22,13 +22,14 @@ __version__ = '0.0.0'
 
 
 #=============================================================================
-def is_python( path ):
+def is_python( path, catchall = False ):
     """
     Attempts to load a Python file without knowing if it's valid Python
     code.
 
-    @param path The path to the Python file to check
-    @return     True if it can be parsed as Python code, otherwise False
+    @param path     The path to the Python file to check
+    @param catchall True to catch all exceptions and return False
+    @return         True if it can be parsed as Python code, otherwise False
     """
 
     # Wrap the load call to catch any syntax problems during loading.
@@ -36,6 +37,10 @@ def is_python( path ):
         load( path )
     except SyntaxError:
         return False
+    except:
+        if catchall:
+            return False
+        raise
     return True
 
 
